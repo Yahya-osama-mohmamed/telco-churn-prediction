@@ -93,6 +93,7 @@ docker-compose logs -f
 ├── data/                   # Data directory (ignored in git)
 │   ├── raw/                # Original downloaded dataset
 │   └── processed/          # Cleaned & split data
+├── dashboard/              # Power BI dashboard (PBIP project format)
 ├── figures/                # EDA and SHAP visualizations
 ├── models/                 # Saved joblib models and pipelines
 ├── mlruns/                 # MLflow tracking store
@@ -146,6 +147,31 @@ Top drivers of churn identified by the model:
 2. **Tenure:** Shorter tenure indicates higher risk.
 3. **Internet Service:** Fiber optic customers show unexpectedly high churn (potential service quality issue).
 4. **Total / Monthly Charges:** Higher charges correlate with higher churn.
+
+---
+
+## 📊 Power BI Dashboard — Customer Retention Command Center
+
+A four-page interactive Power BI dashboard (plus a full dark-mode twin of every
+page) built on the model's scored output:
+
+![Power BI dashboard usage](docs/dashboard.gif)
+
+*Live usage: KPI cards and every visual cross-filter from the Contract slicer,
+four story pages (Executive Overview → Risk Segmentation → Retention Targeting →
+Model Insights), and a **dark-mode toggle button** that switches the entire
+report between light and dark themes (palette: `#003049 / #D62828 / #F77F00 /
+#FCBF49`).*
+
+- **Executive Overview** — how big is the churn problem, and what revenue is exposed?
+- **Risk Segmentation** — where does churn concentrate? Slice any dimension.
+- **Retention Targeting** — a ranked retention call list with savable revenue.
+- **Model Insights** — champion model card, SHAP drivers, and calibration, so
+  stakeholders can trust the scores.
+
+Open `dashboard/ChurnRetention/ChurnRetention.pbip` with Power BI Desktop
+(PBIP/PBIR project format — enable *Power BI Project files* in Preview
+features). Page navigation buttons require **Ctrl+Click** inside Desktop.
 
 ---
 
