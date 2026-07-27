@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
+  "pageOrder": [
+    "exec_overview",
+    "risk_segmentation",
+    "retention_targeting",
+    "model_insights",
+    "dark_exec_overview",
+    "dark_risk_segmentation",
+    "dark_retention_targeting",
+    "dark_model_insights"
+  ],
+  "activePageName": "dark_model_insights"
+}

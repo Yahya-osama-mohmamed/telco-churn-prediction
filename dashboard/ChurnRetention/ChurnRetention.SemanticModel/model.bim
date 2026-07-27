@@ -1,0 +1,776 @@
+{
+  "compatibilityLevel": 1606,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Customers\", \"ModelMetrics\", \"ChurnDrivers\", \"ModelComparison\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "Customers",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "CustomerID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1c89c8f6-ac5b-463f-8f34-d3689f1884b9",
+            "sourceColumn": "CustomerID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "gender",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "ccbf4548-6a47-49d9-a693-9727dcf4454c",
+            "sourceColumn": "gender",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SeniorCitizen",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1d4ee275-3e6d-4a63-9135-80a493f14519",
+            "sourceColumn": "SeniorCitizen",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Partner",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "43f3751c-74b3-4d9a-976f-157ff394b0f1",
+            "sourceColumn": "Partner",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Dependents",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8f420b5a-dbad-4312-b779-7530e203ec8e",
+            "sourceColumn": "Dependents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TenureMonths",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "2dfc13cd-a841-4a3d-8c81-5419ad77d069",
+            "sourceColumn": "TenureMonths",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PhoneService",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "140ef75a-7ed3-49d4-bc63-a76f83542616",
+            "sourceColumn": "PhoneService",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MultipleLines",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "db4ab335-ef54-4746-8b74-836408049468",
+            "sourceColumn": "MultipleLines",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "InternetService",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1370fb0b-2254-4a55-87e0-15ed90fca350",
+            "sourceColumn": "InternetService",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "OnlineSecurity",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "96cba30a-1c9a-4dc6-8ef2-d6a2a25e3883",
+            "sourceColumn": "OnlineSecurity",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "OnlineBackup",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d51a3986-7dfb-4495-83a0-ae572145ba50",
+            "sourceColumn": "OnlineBackup",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DeviceProtection",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "fe2ffcf5-161d-4d1f-9734-aaee8aaf3957",
+            "sourceColumn": "DeviceProtection",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TechSupport",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9bf94428-9ebe-40b7-b1a3-4127dbbf7193",
+            "sourceColumn": "TechSupport",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "StreamingTV",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4fe662b5-9426-4800-9bdc-cabddc301e54",
+            "sourceColumn": "StreamingTV",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "StreamingMovies",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8b207252-4f4b-4e3f-a0c3-7d2b10472900",
+            "sourceColumn": "StreamingMovies",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Contract",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0f4ff098-793f-4e5a-b906-9b86447f10eb",
+            "sourceColumn": "Contract",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PaperlessBilling",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "519d4e2c-7329-42c8-8ba4-915923182622",
+            "sourceColumn": "PaperlessBilling",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PaymentMethod",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "71caef82-bec3-4bf4-9388-832a6d945239",
+            "sourceColumn": "PaymentMethod",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MonthlyCharges",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "$#,0.00",
+            "lineageTag": "8c651aff-ccb9-4110-9d9b-91ee7fffb75f",
+            "sourceColumn": "MonthlyCharges",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TotalCharges",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "$#,0.00",
+            "lineageTag": "9d99263b-7534-4790-a7fd-a6283369a3ff",
+            "sourceColumn": "TotalCharges",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ActualChurn",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "5a014fbd-962a-4848-b616-a5ce113a0217",
+            "sourceColumn": "ActualChurn",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ChurnProbability",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "0.0%",
+            "lineageTag": "08bc425d-cc96-443b-b722-46ee6684b5ff",
+            "sourceColumn": "ChurnProbability",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PredictedChurn",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "08d19014-b22d-4394-a3bf-d9a36617ed3a",
+            "sourceColumn": "PredictedChurn",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "RiskLevel",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c93aecec-9908-4213-8e90-8cedb9cd13ef",
+            "sourceColumn": "RiskLevel",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MonthlyRevenueAtRisk",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "$#,0.00",
+            "lineageTag": "dca94182-19fa-4d65-88ec-91ae533aa553",
+            "sourceColumn": "MonthlyRevenueAtRisk",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ProbabilityBucket",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d11dd429-941f-4748-8f43-0306a223df68",
+            "sourceColumn": "ProbabilityBucket",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TenureGroup",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "04b52b74-dd88-4669-81a1-7b80e33d6c06",
+            "sourceColumn": "TenureGroup",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ServiceCount",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "63ed5939-83f0-4e3d-a12a-13d6cc31b426",
+            "sourceColumn": "ServiceCount",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "2313961f-3eb1-4a8b-995d-10e090b3aa47",
+        "measures": [
+          {
+            "name": "Total Customers",
+            "expression": "COUNTROWS('Customers')",
+            "formatString": "#,0",
+            "lineageTag": "b4a5d5b7-720e-47e9-91f6-e69d10e92f5e"
+          },
+          {
+            "name": "Churned Customers",
+            "expression": "CALCULATE(COUNTROWS('Customers'), 'Customers'[ActualChurn] = \"Yes\")",
+            "formatString": "#,0",
+            "lineageTag": "ddaac23a-7975-42fe-9c7a-4c78bfdde2ac"
+          },
+          {
+            "name": "Churn Rate",
+            "expression": "DIVIDE([Churned Customers], [Total Customers])",
+            "formatString": "0.0%",
+            "lineageTag": "a5daf6dc-2d73-463b-8987-fa94373f8df6"
+          },
+          {
+            "name": "Monthly Revenue",
+            "expression": "SUM('Customers'[MonthlyCharges])",
+            "formatString": "$#,0",
+            "lineageTag": "62470687-20d1-4ffe-9895-98442f5cf5cb"
+          },
+          {
+            "name": "Revenue at Risk",
+            "expression": "SUM('Customers'[MonthlyRevenueAtRisk])",
+            "formatString": "$#,0",
+            "lineageTag": "12edc606-3799-4f9f-aa1a-b6966a194835"
+          },
+          {
+            "name": "Annual Revenue at Risk",
+            "expression": "[Revenue at Risk] * 12",
+            "formatString": "$#,0",
+            "lineageTag": "afb4317b-ab77-473e-9b19-b11211ff8277"
+          },
+          {
+            "name": "Savable Revenue (30% win-back)",
+            "expression": "[Revenue at Risk] * 0.3",
+            "formatString": "$#,0",
+            "lineageTag": "aba51ad5-c121-4ee7-94a7-d3c5cebef80e"
+          },
+          {
+            "name": "High Risk Customers",
+            "expression": "CALCULATE(COUNTROWS('Customers'), 'Customers'[RiskLevel] = \"High\")",
+            "formatString": "#,0",
+            "lineageTag": "befbe0bb-69d2-4331-add5-a6b37d7b9734"
+          },
+          {
+            "name": "Predicted Churners",
+            "expression": "CALCULATE(COUNTROWS('Customers'), 'Customers'[PredictedChurn] = \"Yes\")",
+            "formatString": "#,0",
+            "lineageTag": "7293f484-c3dd-4f49-b28c-07a6149ca855"
+          },
+          {
+            "name": "Avg Churn Probability",
+            "expression": "AVERAGE('Customers'[ChurnProbability])",
+            "formatString": "0.0%",
+            "lineageTag": "c5f9eb95-5b21-4ca9-9391-fb299f1dec7b"
+          },
+          {
+            "name": "Avg Tenure (months)",
+            "expression": "AVERAGE('Customers'[TenureMonths])",
+            "formatString": "0.0",
+            "lineageTag": "bcb28fe7-bb07-4119-b96e-94090a1fd23c"
+          },
+          {
+            "name": "Avg Monthly Charges",
+            "expression": "AVERAGE('Customers'[MonthlyCharges])",
+            "formatString": "$0.00",
+            "lineageTag": "db37a1f9-0455-40cf-9429-2d86e9eb0c48"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Customers",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\churn\\dashboard\\data\\customer_scores.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"CustomerID\", type text}, {\"gender\", type text}, {\"SeniorCitizen\", type text}, {\"Partner\", type text}, {\"Dependents\", type text}, {\"TenureMonths\", Int64.Type}, {\"PhoneService\", type text}, {\"MultipleLines\", type text}, {\"InternetService\", type text}, {\"OnlineSecurity\", type text}, {\"OnlineBackup\", type text}, {\"DeviceProtection\", type text}, {\"TechSupport\", type text}, {\"StreamingTV\", type text}, {\"StreamingMovies\", type text}, {\"Contract\", type text}, {\"PaperlessBilling\", type text}, {\"PaymentMethod\", type text}, {\"MonthlyCharges\", type number}, {\"TotalCharges\", type number}, {\"ActualChurn\", type text}, {\"ChurnProbability\", type number}, {\"PredictedChurn\", type text}, {\"RiskLevel\", type text}, {\"MonthlyRevenueAtRisk\", type number}, {\"ProbabilityBucket\", type text}, {\"TenureGroup\", type text}, {\"ServiceCount\", Int64.Type}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ModelMetrics",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Metric",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f32e91d5-7845-4042-a2bb-b2072e8cb910",
+            "sourceColumn": "Metric",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Value",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "51eb4463-648a-4d27-b1d9-2da9ebfaa455",
+            "sourceColumn": "Value",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "1d9adcd3-6c4e-4f76-ac31-ebfc7612128b",
+        "partitions": [
+          {
+            "name": "ModelMetrics",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\churn\\dashboard\\data\\model_metrics.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Metric\", type text}, {\"Value\", type text}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ChurnDrivers",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Feature",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d70cd694-435b-468f-a640-664718c723b9",
+            "sourceColumn": "Feature",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MeanAbsShap",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "4aac10e2-0bae-4f00-a597-d6446147d11f",
+            "sourceColumn": "MeanAbsShap",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "efa5182c-7560-46c7-9d78-c606a55be712",
+        "measures": [
+          {
+            "name": "Impact",
+            "expression": "SUM('ChurnDrivers'[MeanAbsShap])",
+            "formatString": "0.000",
+            "lineageTag": "932a6726-02aa-4a8e-97f1-8a73e1ed6062"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "ChurnDrivers",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\churn\\dashboard\\data\\churn_drivers.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Feature\", type text}, {\"MeanAbsShap\", type number}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ModelComparison",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Model",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b1154e38-f42b-45fa-8e2e-e5488b8ecf4c",
+            "sourceColumn": "Model",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test Accuracy",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "3be85ab5-0882-4db5-af32-ba248611c3ce",
+            "sourceColumn": "Test Accuracy",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test Precision",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "12520097-51a6-43e8-8093-b12c70752823",
+            "sourceColumn": "Test Precision",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test Recall",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "b31505f5-c007-412e-8bd2-e01b59c47dfe",
+            "sourceColumn": "Test Recall",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test F1",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "589fc9a2-881e-4764-a5f0-a860db360db6",
+            "sourceColumn": "Test F1",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test ROC-AUC",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "307e7304-923c-42b5-ab2a-f6a205d500f3",
+            "sourceColumn": "Test ROC-AUC",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Val ROC-AUC",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "b8921c9e-8ea7-4040-800b-0fb2d6dbdd4b",
+            "sourceColumn": "Val ROC-AUC",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Train ROC-AUC",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "9044edad-4c13-4a59-be2d-c3e529db5f2c",
+            "sourceColumn": "Train ROC-AUC",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Overfit Gap",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "2eefe1b6-19ab-4449-b4c8-8cc1a4f1a0fd",
+            "sourceColumn": "Overfit Gap",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Training Time (s)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "98927077-81a9-4e6b-b4fe-edfe88f45b16",
+            "sourceColumn": "Training Time (s)",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "7cdb7f0b-1a42-4e49-8b16-257ded65a6d6",
+        "partitions": [
+          {
+            "name": "ModelComparison",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\churn\\dashboard\\data\\model_comparison.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Model\", type text}, {\"Test Accuracy\", type number}, {\"Test Precision\", type number}, {\"Test Recall\", type number}, {\"Test F1\", type number}, {\"Test ROC-AUC\", type number}, {\"Val ROC-AUC\", type number}, {\"Train ROC-AUC\", type number}, {\"Overfit Gap\", type number}, {\"Training Time (s)\", type number}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

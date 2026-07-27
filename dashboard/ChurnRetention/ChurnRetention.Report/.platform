@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Customer Retention Command Center"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "38274fe2-789b-4539-b918-314d0fa29559"
+  }
+}

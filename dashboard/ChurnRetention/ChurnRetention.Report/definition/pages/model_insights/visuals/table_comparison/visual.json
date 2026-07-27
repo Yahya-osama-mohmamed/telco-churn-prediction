@@ -1,0 +1,209 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "table_comparison",
+  "position": {
+    "x": 24,
+    "y": 376,
+    "z": 2000,
+    "height": 320,
+    "width": 700
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ModelComparison"
+                    }
+                  },
+                  "Property": "Model"
+                }
+              },
+              "queryRef": "ModelComparison.Model",
+              "nativeQueryRef": "Model"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test ROC-AUC"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test ROC-AUC)",
+              "nativeQueryRef": "Sum of Test ROC-AUC",
+              "displayName": "Test AUC"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Val ROC-AUC"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Val ROC-AUC)",
+              "nativeQueryRef": "Sum of Val ROC-AUC",
+              "displayName": "Val AUC"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test Recall"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test Recall)",
+              "nativeQueryRef": "Sum of Test Recall",
+              "displayName": "Recall"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test Precision"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test Precision)",
+              "nativeQueryRef": "Sum of Test Precision",
+              "displayName": "Precision"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test F1"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test F1)",
+              "nativeQueryRef": "Sum of Test F1",
+              "displayName": "F1"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Overfit Gap"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Overfit Gap)",
+              "nativeQueryRef": "Sum of Overfit Gap",
+              "displayName": "Overfit Gap"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "ModelComparison"
+                      }
+                    },
+                    "Property": "Val ROC-AUC"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Candidate Model Comparison (selected on validation AUC)'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

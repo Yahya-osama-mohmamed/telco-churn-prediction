@@ -1,0 +1,14 @@
+{
+  "best_model": "Logistic Regression",
+  "decision_threshold": 0.6691,
+  "val_roc_auc": 0.8367,
+  "test_roc_auc": 0.8538,
+  "test_metrics_at_threshold": {
+    "accuracy": 0.7956,
+    "precision": 0.6127,
+    "recall": 0.6214,
+    "f1": 0.617
+  },
+  "trained_at_utc": "2026-07-26T17:31:47.400709+00:00",
+  "n_training_rows": 4932
+}

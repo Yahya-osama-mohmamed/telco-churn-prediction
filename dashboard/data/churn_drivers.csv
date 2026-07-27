@@ -1,0 +1,16 @@
+Feature,MeanAbsShap
+tenure,0.5608
+Contract Month-to-month,0.4006
+Contract Two year,0.2955
+charge tenure ratio,0.1774
+PaperlessBilling,0.1702
+InternetService Fiber optic,0.159
+avg monthly charge,0.1523
+InternetService DSL,0.1305
+PaymentMethod Electronic check,0.1119
+TotalCharges,0.1117
+MultipleLines No,0.111
+TechSupport No,0.1003
+OnlineSecurity No,0.0919
+Dependents,0.0766
+tenure group 25-36,0.0696

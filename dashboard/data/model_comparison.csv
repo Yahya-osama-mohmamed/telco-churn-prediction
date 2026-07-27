@@ -1,0 +1,4 @@
+Model,Test Accuracy,Test Precision,Test Recall,Test F1,Test ROC-AUC,Val ROC-AUC,Train ROC-AUC,Overfit Gap,Training Time (s)
+Logistic Regression,0.7417,0.5081,0.7821,0.616,0.8538,0.8367,0.8541,0.0174,6.9528
+XGBoost,0.755,0.5235,0.8357,0.6437,0.8555,0.8356,0.8701,0.0345,30.6101
+LightGBM,0.754,0.5222,0.8393,0.6438,0.8548,0.8339,0.8636,0.0296,55.3109

@@ -1,0 +1,10 @@
+Metric,Value
+Best Model,Logistic Regression
+Test ROC-AUC,0.8538
+Validation ROC-AUC,0.8367
+Decision Threshold,0.6691
+Test Accuracy @ threshold,0.7956
+Test Precision @ threshold,0.6127
+Test Recall @ threshold,0.6214
+Test F1 @ threshold,0.617
+Trained At (UTC),2026-07-26T17:31:47
