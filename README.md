@@ -27,6 +27,7 @@ Customer churn (attrition) is one of the most critical challenges for telecom co
 - **Data Science Core:** pandas, NumPy, scikit-learn
 - **Machine Learning Models:** XGBoost, LightGBM, Logistic Regression
 - **Explainability:** SHAP (SHapley Additive exPlanations)
+- **Experiment Tracking:** MLflow
 - **API & Backend:** FastAPI, Uvicorn, Pydantic
 - **Frontend / Dashboard:** Streamlit, Plotly
 - **DevOps / CI-CD:** Docker, Docker Compose, GitHub Actions, Render
@@ -63,7 +64,16 @@ Or execute it headlessly:
 jupyter nbconvert --to notebook --execute --inplace notebooks/churn_analysis.ipynb
 ```
 
-### 3. Start the Applications
+### 3. Browse the tracked experiments
+
+Every tuning run is logged to a local MLflow store — hyperparameters, CV and
+validation scores, full test metrics, and the champion's serialized pipeline.
+
+```bash
+mlflow ui --backend-store-uri mlruns
+```
+
+### 4. Start the Applications
 **FastAPI Backend (Port 8000):**
 ```bash
 uvicorn app.api:app --reload
@@ -104,6 +114,7 @@ docker-compose logs -f
 │   └── processed/          # Cleaned & split data
 ├── dashboard/              # Power BI dashboard (PBIP project format)
 ├── figures/                # EDA and SHAP visualizations (written by the notebook)
+├── mlruns/                 # MLflow tracking store (gitignored)
 ├── models/                 # Saved pipeline, feature names, model metadata
 ├── notebooks/
 │   └── churn_analysis.ipynb  # ← the project: EDA → features → models → threshold → SHAP
