@@ -19,7 +19,7 @@ import plotly.graph_objects as go
 import joblib
 from sklearn.pipeline import Pipeline
 
-from src.config import FINAL_PIPELINE_PATH, MODEL_METADATA_PATH
+from pipeline_lib import FINAL_PIPELINE_PATH, MODEL_METADATA_PATH
 
 # =============================================================================
 # App Configuration
@@ -139,7 +139,7 @@ def predict_single_api(input_dict: dict):
 
 @st.cache_resource
 def _load_shap_background_cached(_pipeline, train_mtime: float, model_mtime: float):
-    from src.config import PROCESSED_TRAIN_FILE, TARGET
+    from pipeline_lib import PROCESSED_TRAIN_FILE, TARGET
     df = pd.read_csv(PROCESSED_TRAIN_FILE).drop(columns=[TARGET], errors="ignore")
     transformer = Pipeline(_pipeline.steps[:-1])
     return np.asarray(transformer.transform(df))
@@ -147,7 +147,7 @@ def _load_shap_background_cached(_pipeline, train_mtime: float, model_mtime: flo
 
 def load_shap_background(pipeline):
     """Transformed training data used as background for LinearExplainer."""
-    from src.config import PROCESSED_TRAIN_FILE
+    from pipeline_lib import PROCESSED_TRAIN_FILE
     try:
         if PROCESSED_TRAIN_FILE.exists() and FINAL_PIPELINE_PATH.exists():
             return _load_shap_background_cached(
@@ -389,7 +389,7 @@ with tab3:
     st.write("These visualizations are generated during the model training phase and show overall patterns across the entire dataset.")
     
     try:
-        from src.config import FIGURES_DIR
+        from pipeline_lib import FIGURES_DIR
         
         col_img1, col_img2 = st.columns(2)
         

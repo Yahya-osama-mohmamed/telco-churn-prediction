@@ -27,7 +27,6 @@ Customer churn (attrition) is one of the most critical challenges for telecom co
 - **Data Science Core:** pandas, NumPy, scikit-learn
 - **Machine Learning Models:** XGBoost, LightGBM, Logistic Regression
 - **Explainability:** SHAP (SHapley Additive exPlanations)
-- **Experiment Tracking:** MLflow
 - **API & Backend:** FastAPI, Uvicorn, Pydantic
 - **Frontend / Dashboard:** Streamlit, Plotly
 - **DevOps / CI-CD:** Docker, Docker Compose, GitHub Actions, Render
@@ -48,10 +47,20 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Run the ML Pipeline
-This will download the dataset, clean data, engineer features, train models, generate SHAP explanations, track experiments in MLflow, and save the final `.joblib` models.
+### 2. Run the analysis
+The whole project is one notebook: [`notebooks/churn_analysis.ipynb`](notebooks/churn_analysis.ipynb).
+It downloads the dataset, cleans it, splits before fitting anything, engineers
+features, compares three model families, tunes the decision threshold, opens the
+test set once, runs SHAP, and saves the artifacts the API serves.
+
 ```bash
-python main.py
+jupyter lab notebooks/churn_analysis.ipynb
+```
+
+Or execute it headlessly:
+
+```bash
+jupyter nbconvert --to notebook --execute --inplace notebooks/churn_analysis.ipynb
 ```
 
 ### 3. Start the Applications
@@ -70,7 +79,7 @@ streamlit run app/streamlit_app.py
 
 ## 🐳 Docker Setup
 
-You can run the entire application stack using Docker Compose. The pipeline (`main.py`) must be run at least once locally to generate the `models/` directory before starting the containers.
+You can run the entire application stack using Docker Compose. The notebook must be run at least once locally to generate the `models/` directory before starting the containers.
 
 ```bash
 # Start both API and Streamlit containers
@@ -94,52 +103,60 @@ docker-compose logs -f
 │   ├── raw/                # Original downloaded dataset
 │   └── processed/          # Cleaned & split data
 ├── dashboard/              # Power BI dashboard (PBIP project format)
-├── figures/                # EDA and SHAP visualizations
-├── models/                 # Saved joblib models and pipelines
-├── mlruns/                 # MLflow tracking store
-├── notebooks/              # Jupyter notebooks for exploration
-├── reports/                # Executive summaries and comparison tables
-├── src/                    # Core ML Source Code
-│   ├── config.py           # Constants and paths
-│   ├── data_loader.py      # Download and initial profiling
-│   ├── preprocessing.py    # Cleaning, encoding, and scaling pipelines
-│   ├── feature_engineering.py # Feature creation
-│   ├── feature_selection.py   # MI and Random Forest importance
-│   ├── model_training.py   # RandomizedSearchCV tuning
-│   ├── model_evaluation.py # Metrics computation and plotting
-│   ├── explainability.py   # SHAP analysis
-│   └── logger.py           # Structured JSON logging
+├── figures/                # EDA and SHAP visualizations (written by the notebook)
+├── models/                 # Saved pipeline, feature names, model metadata
+├── notebooks/
+│   └── churn_analysis.ipynb  # ← the project: EDA → features → models → threshold → SHAP
+├── reports/                # Model comparison table
 ├── tests/                  # Pytest unit tests
+├── pipeline_lib.py         # Custom transformers shared by the notebook and the API
 ├── Dockerfile              # Multi-purpose Dockerfile
 ├── docker-compose.yml      # Container orchestration
-├── main.py                 # Pipeline execution entry point
 ├── render.yaml             # Render cloud deployment config
 └── requirements.txt        # Python dependencies
 ```
+
+### Why there is still a `.py` file
+
+`pipeline_lib.py` holds the two custom transformers (`FeatureEngineer`,
+`BinaryEncoder`) and the column definitions. Not for tidiness — a pickled
+sklearn pipeline stores its steps *by import path*, so a transformer defined in
+a notebook pickles as `__main__.FeatureEngineer` and the API can never load it.
+Everything else — loading, EDA, splitting, tuning, evaluation, explainability —
+lives in the notebook.
 
 ---
 
 ## 📊 Model Performance
 
-After running the pipeline, check `reports/model_comparison.csv` for detailed metrics.
+After running the notebook, check `reports/model_comparison.csv` for detailed metrics.
 
-Our best model (typically **XGBoost** or **LightGBM**) achieves:
-- **ROC-AUC:** ~0.84 - 0.85
-- **Recall (Churn):** Prioritized via `scale_pos_weight` to identify as many at-risk customers as possible.
+The champion is chosen on the validation set. All three families land within a
+few thousandths of each other, so the tiebreaker is interpretability and
+training cost — which is why the linear model ships:
+
+| Model | Val ROC-AUC | Test ROC-AUC |
+|---|---|---|
+| **Logistic Regression** (champion) | **0.8367** | **0.8538** |
+| XGBoost | 0.8356 | 0.8555 |
+| LightGBM | 0.8339 | 0.8548 |
+
+At the tuned threshold of **0.669**, the served model scores accuracy 0.796,
+precision 0.613, recall 0.621, F1 0.617 on the held-out test set.
 
 ### Methodology Notes
 
 - **Model selection** uses the validation set (15%); the test set (15%) is reserved
   strictly for the final unbiased performance estimate.
-- **Feature engineering lives inside the sklearn Pipeline** (`FeatureEngineer` step),
+- **Feature engineering lives inside the sklearn Pipeline** (`FeatureEngineer` step in `pipeline_lib.py`),
   so statistics such as the MonthlyCharges median used by `high_value_short_tenure`
   are learned from training folds only. The saved `models/final_pipeline.joblib`
   accepts raw customer records — no manual feature engineering is needed at serving time.
 - **The decision threshold** is tuned on the validation set (maximizing F1) and stored
   in `models/model_metadata.json`; the API applies it automatically instead of a
   hardcoded 0.5.
-- Feature-importance analysis (mutual information + random forest) is reported in
-  `figures/feature_selection_*.png`; models are trained on the full feature set.
+- **Mutual information** is used to sanity-check feature signal before modeling
+  (`figures/feature_selection_mi.png`); models still train on the full feature set.
 
 ### Feature Importance (SHAP)
 Top drivers of churn identified by the model:

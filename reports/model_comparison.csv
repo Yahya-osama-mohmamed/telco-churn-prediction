@@ -1,4 +1,4 @@
-Model,Test Accuracy,Test Precision,Test Recall,Test F1,Test ROC-AUC,Val ROC-AUC,Train ROC-AUC,Overfit Gap,Training Time (s),Description
-Logistic Regression,0.7417218543046358,0.5081206496519721,0.7821428571428571,0.6160337552742616,0.8537759698473983,0.836687892211148,0.8540624188852014,0.01737452667405337,6.952777862548828,Interpretable linear baseline. Uses L2 regularization and balanced class weights to handle imbalanced data.
-XGBoost,0.7549668874172185,0.5234899328859061,0.8357142857142857,0.6437414030261348,0.8555157198014341,0.8355989294942784,0.8701295538414597,0.03453062434718135,30.61013627052307,Gradient boosting with regularization. Uses scale_pos_weight for class imbalance and L1/L2 regularization to prevent overfitting.
-LightGBM,0.7540208136234626,0.5222222222222223,0.8392857142857143,0.6438356164383562,0.8548331494760066,0.8339401070505722,0.8635602435589447,0.029620136508372474,55.310882806777954,Fast gradient boosting with leaf-wise growth. Uses is_unbalance for class imbalance and histogram-based splitting for speed.
+,val_roc_auc,val_pr_auc,val_accuracy,val_precision,val_recall,val_f1,test_roc_auc,test_pr_auc,test_accuracy,test_precision,test_recall,test_f1,overfit_gap
+Logistic Regression,0.8367,0.64,0.7524,0.5232,0.7643,0.6212,0.8538,0.6736,0.7417,0.5081,0.7821,0.616,-0.0171
+XGBoost,0.8356,0.6401,0.7524,0.5224,0.7929,0.6298,0.8555,0.67,0.755,0.5235,0.8357,0.6437,-0.0199
+LightGBM,0.8339,0.6337,0.7476,0.5164,0.7857,0.6232,0.8548,0.6671,0.754,0.5222,0.8393,0.6438,-0.0209
