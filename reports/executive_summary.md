@@ -14,15 +14,15 @@ Analysis of 7,043 customer records revealed several critical insights into churn
 ## 3. Model Development & Performance
 We developed a complete machine learning pipeline incorporating data cleaning, custom feature engineering, and robust feature selection. We trained three algorithms: Logistic Regression (interpretable baseline), XGBoost, and LightGBM.
 
-**Evaluation Strategy:** Models were tuned using 5-fold cross-validation, selected on a held-out 15% validation set, and reported on an unseen 15% test set, prioritizing **ROC-AUC** and **Recall** (to ensure we capture as many true churners as possible). Class imbalance was handled natively using algorithm-specific weights (`scale_pos_weight` / balanced class weights). The production decision threshold is tuned on the validation set rather than fixed at 0.5.
+**Evaluation Strategy:** Models were tuned with 5-fold stratified cross-validation on the training split (randomised search, up to 50 candidates, scored on **ROC-AUC**), selected on a held-out 15% validation set, and reported once on an unseen 15% test set. Class imbalance was handled natively using algorithm-specific weights (`scale_pos_weight` / balanced class weights). The production decision threshold is tuned on the validation set rather than fixed at 0.5 — it maximises **F1**, which balances precision and recall rather than maximising recall alone.
 
 ### Final Model Selection
 The champion is chosen automatically by validation ROC-AUC each time the pipeline runs; all three candidates score within ~0.002 AUC of each other on this dataset, and the current champion is recorded in `models/model_metadata.json` alongside its tuned decision threshold and test metrics. In the latest run **Logistic Regression** narrowly won (test ROC-AUC ≈ 0.85) — a welcome outcome operationally, as it is the fastest and most interpretable of the three.
-* It successfully identifies the vast majority of at-risk customers (~78% recall at the tuned threshold).
+* At the tuned threshold of 0.669 the model recovers **62.1% of churners at 61.3% precision** (accuracy 0.796, F1 0.617) on the held-out test set. Maximising F1 deliberately buys precision at the cost of recall: at the default 0.5 cut-off the same model reaches 78.2% recall but precision falls to 50.8%, so nearly half of every contacted customer would be a false alarm. Which operating point is correct depends on the retention offer's cost, and that trade-off is the decision the business owns — see `models/model_metadata.json` for the shipped point.
 * The train vs. validation gap is minimal, indicating no significant overfitting.
 
 ## 4. Drivers of Churn (SHAP Explainability)
-Using Game Theory (SHAP values), we cracked open the "black box" of the XGBoost model to understand exactly *why* it predicts churn. The top 5 drivers globally are:
+SHAP values explain the **shipped Logistic Regression pipeline** — the same artifact the API serves, not a separate tree model — so the drivers below are the reasons behind the scores stakeholders actually receive. The top 5 drivers globally are:
 1. **Contract (Month-to-month):** The single biggest risk factor.
 2. **Tenure:** Shorter tenure increases risk significantly.
 3. **Internet Service (Fiber Optic):** Strongly pushes the model toward predicting churn.

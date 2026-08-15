@@ -140,7 +140,9 @@ lives in the notebook.
 
 ## 📊 Model Performance
 
-After running the notebook, check `reports/model_comparison.csv` for detailed metrics.
+**[`RESULTS.md`](RESULTS.md) is the source of truth** — full protocol, both
+operating points, and an explicit list of what this repository does *not*
+establish. Raw metrics live in `reports/model_comparison.csv`.
 
 The champion is chosen on the validation set. All three families land within a
 few thousandths of each other, so the tiebreaker is interpretability and
@@ -194,8 +196,13 @@ report between light and dark themes (palette: `#003049 / #D62828 / #F77F00 /
 - **Executive Overview** — how big is the churn problem, and what revenue is exposed?
 - **Risk Segmentation** — where does churn concentrate? Slice any dimension.
 - **Retention Targeting** — a ranked retention call list with savable revenue.
-- **Model Insights** — champion model card, SHAP drivers, and calibration, so
-  stakeholders can trust the scores.
+- **Model Insights** — champion model card, SHAP drivers, and a reliability plot
+  (observed churn rate per predicted-probability bucket).
+
+> **Read before quoting these pages.** All 7,043 customers are scored by a
+> pipeline trained on 4,932 of them, so ~70% of every dashboard figure is
+> in-sample and optimistic; the model card also shows 0.5-threshold metrics while
+> the API serves 0.669. See [`RESULTS.md`](RESULTS.md) §6.
 
 Open `dashboard/ChurnRetention/ChurnRetention.pbip` with Power BI Desktop
 (PBIP/PBIR project format — enable *Power BI Project files* in Preview
