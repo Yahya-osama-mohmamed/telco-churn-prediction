@@ -222,6 +222,41 @@ The project is configured for seamless deployment on **Render**.
 
 ---
 
+---
+
+## 🚢 Deployment
+
+[![CI](https://github.com/Yahya-osama-mohmamed/telco-churn-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/Yahya-osama-mohmamed/telco-churn-prediction/actions/workflows/ci.yml)
+[![Publish container](https://github.com/Yahya-osama-mohmamed/telco-churn-prediction/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Yahya-osama-mohmamed/telco-churn-prediction/actions/workflows/docker-publish.yml)
+
+The published image is self-contained — model included — so this is all it takes:
+
+```bash
+docker run -p 8000:8000 ghcr.io/yahya-osama-mohmamed/telco-churn-api:latest
+curl http://localhost:8000/health
+```
+
+Images are tagged `latest`, `sha-<commit>` and semver on a release tag.
+
+**What has to pass before an image is published**
+
+| Stage | What it checks |
+|---|---|
+| Lint | `ruff` across the package |
+| Tests | `pytest` with coverage, against the released model artifact |
+| Dependency audit | `pip-audit` (advisory) |
+| **Model quality gate** | test ROC-AUC ≥ 0.83, validation ROC-AUC ≥ 0.82, and a decision threshold that is neither 0 nor 1 |
+| **Container smoke test** | The image is started and the real endpoints are called; the response is asserted, not just the status code |
+| Image scan | Trivy, HIGH/CRITICAL (advisory) |
+
+The quality gate is the part worth pointing at: a retrain that quietly degrades
+still runs, still passes the tests, and would still build — the gate is what
+stops it reaching an image.
+
+**Model artifacts** live in the [`models-v1` release](https://github.com/Yahya-osama-mohmamed/telco-churn-prediction/releases/tag/models-v1),
+not in git. CI fetches them before the tests and before the image build, so the
+binaries stay versioned and immutable without bloating the repository history.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
