@@ -40,14 +40,16 @@ Customer churn (attrition) is one of the most critical challenges for telecom co
 
 ### 1. Local Setup (Without Docker)
 
-Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/Yahya-osama-mohmamed/telco-churn-prediction.git
 cd telco-churn-prediction
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+uv sync            # creates .venv and installs the locked dependency tree
 ```
+
+Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml`
+declares them, `uv.lock` pins the entire transitive tree, and `uv sync` installs
+exactly that. The lockfile is what CI and the container build install from, so
+"works on my machine" and "works in the image" are the same resolution.
 
 ### 2. Run the analysis
 The whole project is one notebook: [`notebooks/churn_analysis.ipynb`](notebooks/churn_analysis.ipynb).
@@ -56,19 +58,19 @@ features, compares three model families, tunes the decision threshold, opens the
 test set once, runs SHAP, and saves the artifacts the API serves.
 
 ```bash
-jupyter lab notebooks/churn_analysis.ipynb
+uv run jupyter lab notebooks/churn_analysis.ipynb
 ```
 
 Or execute it headlessly:
 
 ```bash
-jupyter nbconvert --to notebook --execute --inplace notebooks/churn_analysis.ipynb
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/churn_analysis.ipynb
 ```
 
 Check the trained model still clears the floor CI enforces:
 
 ```bash
-python scripts/check_model_quality.py
+uv run python scripts/check_model_quality.py
 ```
 
 ### 3. Browse the tracked experiments
@@ -77,19 +79,19 @@ Every tuning run is logged to a local MLflow store — hyperparameters, CV and
 validation scores, full test metrics, and the champion's serialized pipeline.
 
 ```bash
-mlflow ui --backend-store-uri mlruns
+uv run mlflow ui --backend-store-uri mlruns
 ```
 
 ### 4. Start the Applications
 **FastAPI Backend (Port 8000):**
 ```bash
-uvicorn app.api:app --reload
+uv run uvicorn app.api:app --reload
 ```
 Swagger documentation available at: http://localhost:8000/docs
 
 **Streamlit Dashboard (Port 8501):**
 ```bash
-streamlit run app/streamlit_app.py
+uv run streamlit run app/streamlit_app.py
 ```
 
 ---
@@ -149,10 +151,10 @@ first — or just use the published image above.
 ├── tests/                  # Pytest suite
 ├── pipeline_lib.py         # Custom transformers shared by the notebook and the API
 ├── Dockerfile              # Multi-stage, non-root, healthchecked
-├── requirements-api.txt    # Runtime deps only (the image does not need jupyter)
-├── requirements.txt        # Development deps
+├── pyproject.toml          # Dependencies, ruff and pytest config
+├── uv.lock                 # The exact tree CI and the image install
 ├── RESULTS.md              # Full protocol and honest limitations
-└── ruff.toml
+└── .pre-commit-config.yaml
 ```
 
 ### Why there is still a `.py` file
