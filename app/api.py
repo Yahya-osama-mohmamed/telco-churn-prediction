@@ -8,25 +8,26 @@ Provides:
 - POST /predict/batch: CSV upload for bulk predictions
 """
 
-import time
-import logging
+import datetime
 import io
 import json
-import datetime
-import pandas as pd
+import logging
+import time
+
 import joblib
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request
+import pandas as pd
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
-from pipeline_lib import FINAL_PIPELINE_PATH, FEATURE_NAMES_PATH, MODEL_METADATA_PATH
+from app.schemas import BatchPredictionResponse, CustomerInput, HealthResponse, PredictionResponse
+from pipeline_lib import FEATURE_NAMES_PATH, FINAL_PIPELINE_PATH, MODEL_METADATA_PATH
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 
 def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)
-from app.schemas import CustomerInput, PredictionResponse, BatchPredictionResponse, HealthResponse
 
 logger = get_logger("api")
 
@@ -122,25 +123,25 @@ def load_model():
 async def log_requests(request: Request, call_next):
     """Log all requests and update latency metrics."""
     start_time = time.time()
-    
+
     try:
         response = await call_next(request)
         process_time = (time.time() - start_time) * 1000
-        
+
         # Update rolling average latency — averaged over REQUESTS, not
         # prediction rows (a 1000-row batch is still one latency sample)
         if request.url.path.startswith("/predict"):
             n = metrics["predict_requests"]
             metrics["avg_latency_ms"] = (metrics["avg_latency_ms"] * n + process_time) / (n + 1)
             metrics["predict_requests"] = n + 1
-        
+
         logger.info(
             f"{request.method} {request.url.path} - "
             f"Status: {response.status_code} - "
             f"Latency: {process_time:.2f}ms"
         )
         return response
-        
+
     except Exception as e:
         metrics["errors"] += 1
         logger.error(f"Unhandled exception during {request.method} {request.url.path}: {str(e)}")
@@ -166,15 +167,15 @@ def process_prediction(df: pd.DataFrame, pipeline) -> list:
     # and scaling all happen inside predict_proba. Raw records go straight in.
     probabilities = pipeline.predict_proba(df)[:, 1]
     predictions = (probabilities >= DECISION_THRESHOLD).astype(int)
-    
+
     results = []
-    for pred, prob in zip(predictions, probabilities):
+    for pred, prob in zip(predictions, probabilities, strict=False):
         results.append(PredictionResponse(
             churn_prediction=int(pred),
             churn_probability=float(prob),
             risk_level=determine_risk_level(prob)
         ))
-        
+
     return results
 
 
@@ -192,21 +193,21 @@ def root():
 def health_check():
     """API health check endpoint."""
     pipeline, _ = load_model()
-    
+
     status = "healthy" if pipeline is not None else "degraded (model not loaded)"
     uptime = time.time() - START_TIME
-    
+
     # Try to get modification time of model file for versioning
     model_version = "unknown"
     if FINAL_PIPELINE_PATH.exists():
         mtime = FINAL_PIPELINE_PATH.stat().st_mtime
         model_version = datetime.datetime.fromtimestamp(mtime).isoformat()
-        
+
     return HealthResponse(
         status=status,
         model_version=model_version,
         uptime_seconds=uptime,
-        timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat()
+        timestamp=datetime.datetime.now(datetime.UTC).isoformat()
     )
 
 
@@ -220,26 +221,26 @@ def get_metrics():
 def predict_churn(customer: CustomerInput):
     """Predict churn probability for a single customer."""
     pipeline, _ = load_model()
-    
+
     if pipeline is None:
         raise HTTPException(status_code=503, detail="Model is not loaded or available.")
-        
+
     try:
         # Convert single input to DataFrame
         df = pd.DataFrame([customer.model_dump()])
-        
+
         # Run prediction
         result = process_prediction(df, pipeline)[0]
-        
+
         # Update metrics
         metrics["total_predictions"] += 1
-        
+
         return result
-        
+
     except Exception as e:
         metrics["errors"] += 1
         logger.error(f"Prediction error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}") from e
 
 
 @app.post("/predict/batch", response_model=BatchPredictionResponse)
@@ -247,29 +248,29 @@ def predict_batch(file: UploadFile = File(...)):
     """Predict churn for a batch of customers uploaded via CSV."""
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only CSV files are supported.")
-        
+
     pipeline, _ = load_model()
     if pipeline is None:
         raise HTTPException(status_code=503, detail="Model is not loaded or available.")
-        
+
     try:
         # Read CSV file
         contents = file.file.read()
         df = pd.read_csv(io.BytesIO(contents))
-        
+
         # Run predictions
         results = process_prediction(df, pipeline)
-        
+
         # Update metrics
         metrics["batch_requests"] += 1
         metrics["total_predictions"] += len(results)
-        
+
         return BatchPredictionResponse(
             predictions=results,
             total_processed=len(results)
         )
-        
+
     except Exception as e:
         metrics["errors"] += 1
         logger.error(f"Batch prediction error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error processing batch: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error processing batch: {str(e)}") from e

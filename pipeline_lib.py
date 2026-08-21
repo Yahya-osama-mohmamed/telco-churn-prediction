@@ -14,7 +14,6 @@ Nothing in here should need to change to re-run the analysis.
 """
 
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -92,7 +91,7 @@ def coerce_numeric_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def engineer_features(df: pd.DataFrame, charge_threshold: Optional[float] = None) -> pd.DataFrame:
+def engineer_features(df: pd.DataFrame, charge_threshold: float | None = None) -> pd.DataFrame:
     """Add the six engineered features.
 
     `charge_threshold` must come from training data when this runs in a

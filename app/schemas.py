@@ -7,8 +7,9 @@ Defines the expected structure and validation rules for:
 3. API health status
 """
 
-from typing import List, Literal, Optional, Dict, Any
-from pydantic import BaseModel, Field, ConfigDict
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field
 
 YesNo = Literal["Yes", "No"]
 InternetAddon = Literal["Yes", "No", "No internet service"]
@@ -23,7 +24,7 @@ class CustomerInput(BaseModel):
 
     # Demographics
     gender: Literal["Male", "Female"] = Field(..., description="Customer gender (Male / Female)")
-    SeniorCitizen: int = Field(..., ge=0, le=1, description="Whether the customer is a senior citizen (1) or not (0)")
+    SeniorCitizen: int = Field(..., ge=0, le=1, description="Whether the customer is a senior citizen (1) or not (0)")  # noqa: E501
     Partner: YesNo = Field(..., description="Whether the customer has a partner (Yes / No)")
     Dependents: YesNo = Field(..., description="Whether the customer has dependents (Yes / No)")
 
@@ -40,8 +41,8 @@ class CustomerInput(BaseModel):
 
     # Services
     PhoneService: YesNo = Field(..., description="Whether the customer has a phone service (Yes / No)")
-    MultipleLines: Literal["Yes", "No", "No phone service"] = Field(..., description="Whether the customer has multiple lines")
-    InternetService: Literal["DSL", "Fiber optic", "No"] = Field(..., description="Customer's internet service provider")
+    MultipleLines: Literal["Yes", "No", "No phone service"] = Field(..., description="Whether the customer has multiple lines")  # noqa: E501
+    InternetService: Literal["DSL", "Fiber optic", "No"] = Field(..., description="Customer's internet service provider")  # noqa: E501
     OnlineSecurity: InternetAddon = Field(..., description="Whether the customer has online security")
     OnlineBackup: InternetAddon = Field(..., description="Whether the customer has online backup")
     DeviceProtection: InternetAddon = Field(..., description="Whether the customer has device protection")
@@ -83,7 +84,7 @@ class PredictionResponse(BaseModel):
     churn_prediction: int = Field(..., description="Predicted class: 1 (Churn) or 0 (No Churn)")
     churn_probability: float = Field(..., description="Probability of churning (0.0 to 1.0)")
     risk_level: str = Field(..., description="Risk category: Low, Medium, or High")
-    
+
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -99,7 +100,7 @@ class BatchPredictionResponse(BaseModel):
     """
     Pydantic model for batch prediction response.
     """
-    predictions: List[PredictionResponse]
+    predictions: list[PredictionResponse]
     total_processed: int
 
 

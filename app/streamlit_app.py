@@ -8,15 +8,16 @@ Provides:
 - Global feature importance view
 """
 
-import os
 import json
-import streamlit as st
-import pandas as pd
-import numpy as np
-import requests
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+import os
+
 import joblib
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import requests
+import streamlit as st
 from sklearn.pipeline import Pipeline
 
 from pipeline_lib import FINAL_PIPELINE_PATH, MODEL_METADATA_PATH
@@ -83,7 +84,7 @@ def create_gauge_chart(probability: float, risk_level: str):
         color = "#FFA07A"  # Orange/Salmon
     else:
         color = "#00FA9A"  # Green
-        
+
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=probability * 100,
@@ -165,7 +166,7 @@ def render_shap_waterfall(input_dict: dict, pipeline):
     import shap
 
     st.subheader("Prediction Explainability (SHAP)")
-    st.write("This plot shows how each feature contributed to pushing the prediction above or below the baseline.")
+    st.write("This plot shows how each feature contributed to pushing the prediction above or below the baseline.")  # noqa: E501
 
     try:
         # Convert input to DataFrame; transform through every pipeline step
@@ -240,7 +241,7 @@ with st.sidebar.form("prediction_form"):
     senior = col2.selectbox("Senior Citizen", ["No", "Yes"])
     partner = col1.selectbox("Partner", ["Yes", "No"])
     dependents = col2.selectbox("Dependents", ["No", "Yes"])
-    
+
     st.subheader("Account & Billing")
     tenure = st.slider("Tenure (Months)", min_value=0, max_value=72, value=24)
     contract = st.selectbox("Contract Type", ["Month-to-month", "One year", "Two year"])
@@ -248,14 +249,14 @@ with st.sidebar.form("prediction_form"):
     payment_method = st.selectbox("Payment Method", [
         "Electronic check", "Mailed check", "Bank transfer (automatic)", "Credit card (automatic)"
     ])
-    monthly_charges = st.number_input("Monthly Charges ($)", min_value=18.0, max_value=120.0, value=70.0, step=0.5)
-    total_charges = st.number_input("Total Charges ($)", min_value=0.0, max_value=9000.0, value=monthly_charges * tenure)
-    
+    monthly_charges = st.number_input("Monthly Charges ($)", min_value=18.0, max_value=120.0, value=70.0, step=0.5)  # noqa: E501
+    total_charges = st.number_input("Total Charges ($)", min_value=0.0, max_value=9000.0, value=monthly_charges * tenure)  # noqa: E501
+
     st.subheader("Services Subscribed")
     phone = st.selectbox("Phone Service", ["Yes", "No"])
     multiple_lines = st.selectbox("Multiple Lines", ["No", "Yes", "No phone service"])
     internet = st.selectbox("Internet Service", ["Fiber optic", "DSL", "No"])
-    
+
     col3, col4 = st.columns(2)
     security = col3.selectbox("Online Security", ["No", "Yes", "No internet service"])
     backup = col4.selectbox("Online Backup", ["Yes", "No", "No internet service"])
@@ -263,7 +264,7 @@ with st.sidebar.form("prediction_form"):
     support = col4.selectbox("Tech Support", ["No", "Yes", "No internet service"])
     tv = col3.selectbox("Streaming TV", ["Yes", "No", "No internet service"])
     movies = col4.selectbox("Streaming Movies", ["No", "Yes", "No internet service"])
-    
+
     submit_button = st.form_submit_button("Predict Churn Risk", type="primary", use_container_width=True)
 
 # Build input dictionary
@@ -295,23 +296,23 @@ with tab1:
     if submit_button:
         with st.spinner("Analyzing customer profile..."):
             result = predict_single_api(input_data)
-            
+
             if result:
                 col_res1, col_res2 = st.columns([1, 1])
-                
+
                 with col_res1:
                     st.subheader("Prediction Result")
                     if result["churn_prediction"] == 1:
                         st.error(f"⚠️ **Customer is Likely to Churn** (Risk: {result['risk_level']})")
                     else:
                         st.success(f"✅ **Customer is Likely to Stay** (Risk: {result['risk_level']})")
-                        
+
                     fig = create_gauge_chart(result["churn_probability"], result["risk_level"])
                     st.plotly_chart(fig, use_container_width=True)
-                    
+
                     if result.get("_source") == "local_fallback":
                         st.caption("ℹ️ Computed locally using fallback model (API unreachable).")
-                
+
                 with col_res2:
                     pipeline = load_local_model()
                     if pipeline:
@@ -320,7 +321,7 @@ with tab1:
                         st.info("Local model not available for SHAP explanation.")
     else:
         st.info("👈 Enter customer details in the sidebar and click **Predict Churn Risk**.")
-        
+
         # Display sample profile
         st.subheader("Sample Customer Profile")
         sample_df = pd.DataFrame([input_data])
@@ -331,15 +332,15 @@ with tab1:
 with tab2:
     st.subheader("Batch Prediction from CSV")
     st.write("Upload a CSV file with customer data to generate predictions in bulk.")
-    
+
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-    
+
     if uploaded_file is not None:
         try:
             df_upload = pd.read_csv(uploaded_file)
             st.write(f"Loaded {len(df_upload)} records. Preview:")
             st.dataframe(df_upload.head(3), hide_index=True)
-            
+
             if st.button("Generate Batch Predictions", type="primary"):
                 with st.spinner("Processing batch..."):
                     # Fallback to local prediction for simplicity in Streamlit if API fails
@@ -351,24 +352,24 @@ with tab2:
                         results_df = df_upload.copy()
                         results_df["Churn_Probability"] = np.round(probs, 4)
                         results_df["Churn_Prediction"] = (probs >= threshold).astype(int)
-                        results_df["Risk_Level"] = ["High" if p >= 0.65 else ("Medium" if p >= 0.3 else "Low") for p in probs]
-                        
+                        results_df["Risk_Level"] = ["High" if p >= 0.65 else ("Medium" if p >= 0.3 else "Low") for p in probs]  # noqa: E501
+
                         st.success(f"Successfully processed {len(results_df)} records!")
-                        
+
                         # Display results
                         col_a, col_b, col_c = st.columns(3)
                         col_a.metric("Total Customers", len(results_df))
                         col_b.metric("Predicted Churners", int(results_df["Churn_Prediction"].sum()))
                         col_c.metric("High Risk Count", len(results_df[results_df["Risk_Level"] == "High"]))
-                        
+
                         st.subheader("Results")
                         st.dataframe(
                             results_df.style.map(
-                                lambda val: 'color: red' if val == 'High' else ('color: orange' if val == 'Medium' else 'color: green'),
+                                lambda val: 'color: red' if val == 'High' else ('color: orange' if val == 'Medium' else 'color: green'),  # noqa: E501
                                 subset=['Risk_Level']
                             )
                         )
-                        
+
                         # Download button
                         csv = results_df.to_csv(index=False).encode('utf-8')
                         st.download_button(
@@ -386,13 +387,13 @@ with tab2:
 # --- TAB 3: Model Insights ---
 with tab3:
     st.subheader("Global Model Insights")
-    st.write("These visualizations are generated during the model training phase and show overall patterns across the entire dataset.")
-    
+    st.write("These visualizations are generated during the model training phase and show overall patterns across the entire dataset.")  # noqa: E501
+
     try:
         from pipeline_lib import FIGURES_DIR
-        
+
         col_img1, col_img2 = st.columns(2)
-        
+
         with col_img1:
             st.write("**Feature Importance (SHAP)**")
             shap_bar = FIGURES_DIR / "shap_bar.png"
@@ -400,12 +401,12 @@ with tab3:
                 st.image(str(shap_bar), use_container_width=True)
             else:
                 st.info("SHAP bar plot not found. Run the training pipeline first.")
-                
+
             st.write("**Model Comparison (ROC Curves)**")
             roc_plot = FIGURES_DIR / "roc_curves_comparison.png"
             if roc_plot.exists():
                 st.image(str(roc_plot), use_container_width=True)
-                
+
         with col_img2:
             st.write("**Overall Feature Impact (SHAP Summary)**")
             shap_summary = FIGURES_DIR / "shap_summary.png"
@@ -413,11 +414,11 @@ with tab3:
                 st.image(str(shap_summary), use_container_width=True)
             else:
                 st.info("SHAP summary plot not found.")
-                
+
             st.write("**Churn by Contract Type**")
             contract_plot = FIGURES_DIR / "eda_churn_by_contract.png"
             if contract_plot.exists():
                 st.image(str(contract_plot), use_container_width=True)
-                
+
     except Exception as e:
         st.error(f"Could not load insights: {e}")
